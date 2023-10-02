@@ -1,7 +1,16 @@
 package com.avanade.todo.service;
 
-import com.avanade.todo.model.Task;
-import com.avanade.todo.repository.TaskRepository;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,12 +18,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
+import com.avanade.todo.model.Task;
+import com.avanade.todo.repository.TaskRepository;
 
 class TaskServiceTest {
     List<Task> taskList;
@@ -28,11 +33,9 @@ class TaskServiceTest {
         MockitoAnnotations.openMocks(this);
         taskList = new ArrayList<>();
         Task task1 = new Task(1L, "Configurar Mockito", "Configurar os mocks para teste unitário", false,
-                              LocalDateTime.now(), null
-        );
+                LocalDateTime.now(), null);
         Task task2 = new Task(2L, "Criar testes unitários", "Configurar chamadas de teste unitário", false,
-                              LocalDateTime.now(), null
-        );
+                LocalDateTime.now(), null);
         taskList.add(task1);
         taskList.add(task2);
     }
@@ -40,13 +43,11 @@ class TaskServiceTest {
     @Test
     void create() {
         Task task = new Task(1L, "Configurar Mockito",
-                             "Configurar os mocks para teste unitário", false,
-                             LocalDateTime.now(), LocalDateTime.now()
-        );
+                "Configurar os mocks para teste unitário", false,
+                LocalDateTime.now(), LocalDateTime.now());
         Task expected = new Task(1L, "Configurar Mockito",
-                                 "Configurar os mocks para teste unitário", false,
-                                 LocalDateTime.now(), null
-        );
+                "Configurar os mocks para teste unitário", false,
+                LocalDateTime.now(), null);
 
         when(repository.save(task)).thenReturn(task);
         Task response = service.create(task);
